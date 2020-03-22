@@ -1,3 +1,5 @@
+ï»¿// dllmain.cpp : å®šä¹‰ DLL åº”ç”¨ç¨‹åºçš„å…¥å£ç‚¹ã€‚
+
 #include "core.h"
 
 int getResultOfIntersect()
@@ -96,19 +98,19 @@ int line2circle(Circle c, Line l, Point& res1, Point& res2)
 {
 	Point ceter = c.getCeter();
 	double R = c.getR();
-	//ÇóÔ²ĞÄµ½Ö±ÏßµÄ¾àÀë
+	//æ±‚åœ†å¿ƒåˆ°ç›´çº¿çš„è·ç¦»
 	double juli = getDistance(l, ceter);
-	//ÅĞ¶ÏÊÇ·ñÏà½»£¬»òÕßÏàÇĞ£¬»¹ÊÇ²»Ïà½»
+	//åˆ¤æ–­æ˜¯å¦ç›¸äº¤ï¼Œæˆ–è€…ç›¸åˆ‡ï¼Œè¿˜æ˜¯ä¸ç›¸äº¤
 	if (juli > R + PRECISION) {
 		return 0;
 	}
 
-	//Çó´¹×ãµÄ×ø±ê
+	//æ±‚å‚è¶³çš„åæ ‡
 	Vector segment = l.getQ() - l.getP();
 	double ratio = dot(ceter - l.getP(), segment) / segment.norm();
 	Point foot = l.getP() + segment * ratio;
 
-	//ÌØÅĞ£¬Èç¹ûÏàÇĞ£¬Ôò½»µã¾ÍÊÇ´¹×ã×ø±ê
+	//ç‰¹åˆ¤ï¼Œå¦‚æœç›¸åˆ‡ï¼Œåˆ™äº¤ç‚¹å°±æ˜¯å‚è¶³åæ ‡
 	if (abs(juli - R) < PRECISION) {
 		res1 = foot;
 		if (isOnLine(foot, l)) {
@@ -119,11 +121,11 @@ int line2circle(Circle c, Line l, Point& res1, Point& res2)
 		}
 	}
 
-	//Ö±ÏßABµÄµ¥Î»ÏòÁ¿£¬ÓëABÍ¬Ïò
+	//ç›´çº¿ABçš„å•ä½å‘é‡ï¼Œä¸ABåŒå‘
 	Vector e = segment / segment.module();
-	//base = Ö±ÏßÓëÔ²Ïà½»µÄÏÒµÄÒ»°ë. ÀûÓÃ¹´¹É¶¨Àí
+	//base = ç›´çº¿ä¸åœ†ç›¸äº¤çš„å¼¦çš„ä¸€åŠ. åˆ©ç”¨å‹¾è‚¡å®šç†
 	double base = sqrt(R * R - (ceter - foot).norm());
-	//ÏòÁ¿¼Ó¼õµÃµ½Á½¸öµãµÄ×ø±ê
+	//å‘é‡åŠ å‡å¾—åˆ°ä¸¤ä¸ªç‚¹çš„åæ ‡
 	Point p1 = foot - e * base;
 	Point p2 = foot + e * base;
 	if (isOnLine(p1, l)) {
@@ -150,17 +152,17 @@ int circle2circle(Point c1, double r1, Point c2, double r2, Point& res1, Point& 
 	double x1 = sqrt((c1 - c2).norm());
 	double b1 = abs(r1 - r2);
 	double b2 = abs(r1 + r2);
-	//ÅĞ¶ÏÏàÀë£¬ÄÚÀëºÍÍâÀë
+	//åˆ¤æ–­ç›¸ç¦»ï¼Œå†…ç¦»å’Œå¤–ç¦»
 	if (x1 < b1 || x1 > b2) {
 		return 0;
 	}
-	//ÍâÇĞ
+	//å¤–åˆ‡
 	else if (x1 == b2) {
 		Vector e = (c2 - c1) / (c2 - c1).module();
 		res1 = (c1 + e * r1);
 		return 1;
 	}
-	//ÄÚÇĞ
+	//å†…åˆ‡
 	else if (x1 == b1) {
 		Vector e = (c2 - c1) / (c2 - c1).module();
 		if (r1 < r2) {
@@ -171,7 +173,7 @@ int circle2circle(Point c1, double r1, Point c2, double r2, Point& res1, Point& 
 		}
 		return 1;
 	}
-	//Ïà½»
+	//ç›¸äº¤
 	else {
 		Vector AB = (c2 - c1);
 		double l = AB.module();
@@ -179,21 +181,21 @@ int circle2circle(Point c1, double r1, Point c2, double r2, Point& res1, Point& 
 		double AE = (r1 * r1 - r2 * r2 + l * l) / (2 * l);
 		Point E = c1 + AB * AE / l;
 		double CE = sqrt(r1 * r1 - AE * AE);
-		//Á½Ô²ĞÄºá×ø±êÏàÍ¬
+		//ä¸¤åœ†å¿ƒæ¨ªåæ ‡ç›¸åŒ
 		if (c1.getX() == c2.getX()) {
 			Point left(E.getX() - CE, E.getY());
 			Point right(E.getX() + CE, E.getY());
 			res1 = left;
 			res2 = right;
 		}
-		//Á½¸öÔ²ĞÄ×İ×ø±êÏàÍ¬
+		//ä¸¤ä¸ªåœ†å¿ƒçºµåæ ‡ç›¸åŒ
 		else if (c1.getY() == c2.getY()) {
 			Point up(E.getX(), E.getY() - CE);
 			Point down(E.getX(), E.getY() + CE);
 			res1 = up;
 			res2 = down;
 		}
-		//Ò»°ãÇé¿ö
+		//ä¸€èˆ¬æƒ…å†µ
 		else {
 			double k1 = (c2.getY() - c1.getY()) / (c2.getX() - c1.getX());
 			double k2 = -1 / k1;
@@ -214,23 +216,23 @@ int circle2circle(Point c1, double r1, Point c2, double r2, Point& res1, Point& 
 
 //l1: a1*x + b1*y + c1 = 0
 //l2: a2*x + b2*y + c2 = 0
-//ÏòÁ¿·¨Çó½â£º
-//DÅĞ¶ÏÊÇ·ñÆ½ĞĞ
+//å‘é‡æ³•æ±‚è§£ï¼š
+//Dåˆ¤æ–­æ˜¯å¦å¹³è¡Œ
 //x0 = (b1 * c2 - b2 * c1) / D
 //y0 = (a2 * c1 - a1 * c2) / D
 int line2line(Line l1, Line l2, Point& res)
 {
-	//ÅĞ¶ÏÊÇ·ñÏà½»
+	//åˆ¤æ–­æ˜¯å¦ç›¸äº¤
 	double tmp = cross(l1.getQ() - l1.getP(), l2.getQ() - l2.getP());
 	if (tmp == 0.0) {
 		return 0;
 	}
 
-	//Çól1µÄa1,b1,c1
+	//æ±‚l1çš„a1,b1,c1
 	double a1 = l1.getPy() - l1.getQy();
 	double b1 = l1.getQx() - l1.getPx();
 	double c1 = l1.getPx() * l1.getQy() - l1.getQx() * l1.getPy();
-	//Çól2µÄa2,b2,c2
+	//æ±‚l2çš„a2,b2,c2
 	double a2 = l2.getPy() - l2.getQy();
 	double b2 = l2.getQx() - l2.getPx();
 	double c2 = l2.getPx() * l2.getQy() - l2.getQx() * l2.getPy();
@@ -377,4 +379,6 @@ int cirWithcir(int x1, int y1, int r1, int x2, int y2, int r2, double* x, double
 	}
 	return num;
 }
+
+
 
