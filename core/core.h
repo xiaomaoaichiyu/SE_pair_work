@@ -1,14 +1,8 @@
-﻿// pch.h: 这是预编译标头文件。
-// 下方列出的文件仅编译一次，提高了将来生成的生成性能。
-// 这还将影响 IntelliSense 性能，包括代码完成和许多代码浏览功能。
-// 但是，如果此处列出的文件中的任何一个在生成之间有更新，它们全部都将被重新编译。
-// 请勿在此处添加要频繁更新的文件，这将使得性能优势无效。
-
-#ifndef CORE_H
+﻿#ifndef CORE_H
 #define CORE_H
 
 // 添加要在此处预编译的标头
-#define WIN32_LEAN_AND_MEAN             // 从 Windows 头文件中排除极少使用的内容
+#define WIN32_LEAN_AND_MEAN    // 从 Windows 头文件中排除极少使用的内容
 // Windows 头文件
 #include <windows.h>
 #include <fstream>
@@ -21,7 +15,7 @@
 
 
 #ifdef DLL_EXPORTS
-#define EXPORT_DLL extern "C" __declspec(dllexport)
+#define EXPORT_DLL __declspec(dllexport)
 #else	
 #define EXPORT_DLL __declspec(dllimport)
 #endif
@@ -123,7 +117,7 @@ static std::vector<Circle> circles;
 
 void addPoint(Point p);
 void clearRes();
-EXPORT_DLL void resetRes();
+extern "C" EXPORT_DLL void resetRes();
 
 double cross(Point p, Point q);
 double dot(Point p, Point q);
@@ -139,17 +133,17 @@ bool isSame(Line l1, Line l2);
 bool isSame(Circle c1, Circle c2);
 
 
-EXPORT_DLL int getResultOfIntersect();
+extern "C" EXPORT_DLL int getResultOfIntersect();
 
-EXPORT_DLL void getPoint(double* x, double* y, int* size);
+extern "C" EXPORT_DLL void getPoint(double* x, double* y, int* size);
 
-EXPORT_DLL void addLine(char l, int x1, int y1, int x2, int y2);
+extern "C" EXPORT_DLL void addLine(char l, int x1, int y1, int x2, int y2);
 
-EXPORT_DLL void delLine(char l, int x1, int y1, int x2, int y2);
+extern "C" EXPORT_DLL void delLine(char l, int x1, int y1, int x2, int y2);
 
-EXPORT_DLL void addCircle(int x, int y, int r);
+extern "C" EXPORT_DLL void addCircle(int x, int y, int r);
 
-EXPORT_DLL void delCircle(int x, int y, int r);
+extern "C" EXPORT_DLL void delCircle(int x, int y, int r);
 
 //use for 命令行 c++
 int linesIntersect();
@@ -159,16 +153,16 @@ int circlesIntersect();
 //use for C#
 //wrapper 单次计算
 //第一条直线的数据，第二条直线的数据，结果返回参数
-EXPORT_DLL int lWithl(char l1, int x1, int y1, int x2, int y2,
+extern "C" EXPORT_DLL int lWithl(char l1, int x1, int y1, int x2, int y2,
 	char l2, int x3, int y3, int x4, int y4,
 	double* x, double* y);
 //直线的数据，圆的数据，结果返回参数
-EXPORT_DLL int lWithcir(char l, int x1, int y1, int x2, int y2,
+extern "C" EXPORT_DLL int lWithcir(char l, int x1, int y1, int x2, int y2,
 	int x0, int y0, int r,
 	double* x, double* y);
 
 //第一个圆的数据，第二个圆的数据，结果返回参数
-EXPORT_DLL int cirWithcir(int x1, int y1, int r1,
+extern "C" EXPORT_DLL int cirWithcir(int x1, int y1, int r1,
 	int x2, int y2, int r2,
 	double* x, double* y);
 
