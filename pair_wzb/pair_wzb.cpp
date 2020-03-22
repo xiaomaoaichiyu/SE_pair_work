@@ -1,18 +1,9 @@
-﻿#include "core.h"
+﻿#include "../core/core.h"
 #include <iostream>
 
 using namespace std;
 
 int main(int argc, char** argv) {
-	addLine('S', 2, 4, 3, 2);
-	addLine('L', -1, 4, 5, 2);
-	addLine('R', 2, 5, -1, 2);
-	addCircle(3, 3, 3);
-
-	int num = getResultOfIntersect();
-
-
-
 	string inFileName = "";
 	string outFileName = "";
 	for (int i = 1; i < argc; i++) {
@@ -53,11 +44,6 @@ int main(int argc, char** argv) {
 		}
 	}
 	fileIn.close();
-	int cnt1 = 0, cnt2 = 0, cnt3 = 0;
-	//get the intersection num of all lines
-	cnt1 = linesIntersect();
-	cnt2 = linesCirclesIntersect();
-	cnt3 = circlesIntersect();
 
 	int res = getResultOfIntersect();
 	if (fileOut) {
