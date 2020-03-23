@@ -160,7 +160,7 @@ extern "C" EXPORT_DLL void delCircle(int x, int y, int r);
 
 //交接添加的接口
 extern "C" EXPORT_DLL int getNumOfLines();
-extern "C" EXPORT_DLL void getLines(char* flag, int* x1, int* y1, int* x2, int* y2, int size);
+extern "C" EXPORT_DLL void getLines(int* flag, int* x1, int* y1, int* x2, int* y2, int size);
 extern "C" EXPORT_DLL int getNumOfCircles();
 extern "C" EXPORT_DLL void getCircles(int* x, int* y, int* r, int size);
 

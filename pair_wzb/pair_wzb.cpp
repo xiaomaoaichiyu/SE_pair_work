@@ -1,8 +1,16 @@
 ﻿#include "../core/core.h"
 #include <iostream>
 #include <sstream>
+#include<Windows.h>
 
 using namespace std;
+
+//extern "C" __declspec(dllimport) void Clear();
+
+//extern "C" __declspec(dllimport) void AddLine(int x1, int y1, int x2, int y2);
+
+//extern "C" __declspec(dllimport) int GetIntersectionSize();
+
 
 bool isNum(string str)
 {
@@ -17,6 +25,28 @@ bool isNum(string str)
 }
 
 int main(int argc, char** argv) {
+	//AddLine(0, 0, 1, 1);
+	//AddLine(1, 1, 1, 0);
+	//int num = GetIntersectionSize();
+	typedef void(*ADD)(int x1, int y1, int x2, int y2);
+	typedef int(*GetNum)();
+	typedef void(*ADDCIRCLE)(int x, int y, int r);
+	typedef void(*Getdian)(double* x, double*y, int size);
+	HMODULE hMod = LoadLibrary(L"intersect_core.dll");
+	ADD addAline = (ADD)GetProcAddress(hMod, "AddLine");
+	ADD addAradial = (ADD)GetProcAddress(hMod, "AddRay");
+	ADD addAsegment = (ADD)GetProcAddress(hMod, "AddSection");
+	ADDCIRCLE addAcircle = (ADDCIRCLE)GetProcAddress(hMod, "AddCircle");
+	GetNum getInSize = (GetNum)GetProcAddress(hMod, "GetIntersectionsSize");
+	Getdian getDian = (Getdian)GetProcAddress(hMod, "GetIntersections");
+
+	addAcircle(2, 2, 3);
+	addAcircle(2, 3, 4);
+	int num = getInSize();
+	double x[2];
+	double y[2];
+	getDian(x, y, 1);
+
 	string inFileName = "";
 	string outFileName = "";
 	int flag = 0;
@@ -114,6 +144,15 @@ int main(int argc, char** argv) {
 				return 0;
 			}
 			addLine(mark, x1, y1, x2, y2);
+			if (mark == 'L') {
+				addAline(x1, y1, x2, y2);
+			}
+			else if (mark == 'R') {
+				addAradial(x1, y1, x2, y2);
+			}
+			else if (mark == 'S') {
+				addAsegment(x1, y1, x2, y2);
+			}
 		}
 		else if (mark == 'C') {
 			stringstream nums;
@@ -146,14 +185,16 @@ int main(int argc, char** argv) {
 				cerr << "Radius Must Be Greater Than Zero!!" << endl;
 			}
 			addCircle(x1, y1, r);
+			addAcircle(x1, y1, r);
 		}
 	}
 	fileIn.close();
 
 	int res = getResultOfIntersect();
+	int res1 = getInSize();
 	if (fileOut) {
 		fileOut << res;
 	}
-	cout << res << endl;
+	cout << res << " " << res1 << endl;
 	return 0;
 }

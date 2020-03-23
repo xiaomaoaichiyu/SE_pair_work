@@ -70,10 +70,10 @@ EXPORT_DLL int getNumOfLines()
 	return lines.size();
 }
 
-EXPORT_DLL void getLines(char* flag, int* x1, int* y1, int* x2, int* y2, int size)
+EXPORT_DLL void getLines(int* flag, int* x1, int* y1, int* x2, int* y2, int size)
 {
 	for (int i = 0; i < lines.size(); i++) {
-		flag[i] = lines.at(i).getFlag();
+		flag[i] = (int)lines.at(i).getFlag();
 		x1[i] = (int)lines.at(i).getPx();
 		y1[i] = (int)lines.at(i).getPy();
 		x2[i] = (int)lines.at(i).getQx();
