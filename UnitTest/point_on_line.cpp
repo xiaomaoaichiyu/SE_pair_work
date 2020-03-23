@@ -1,5 +1,5 @@
 #include "CppUnitTest.h"
-#include "../core.h"
+#include "../core/core.h"
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTest2 {
@@ -34,6 +34,9 @@ namespace UnitTest2 {
 			Assert::AreEqual(isOnSegment(p3, l1), true);
 			Assert::AreEqual(isOnSegment(p4, l1), true);
 			Assert::AreEqual(isOnSegment(p5, l1), false);
+		}
+
+		TEST_METHOD(isSame) {
 		}
 	};
 }

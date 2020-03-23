@@ -56,6 +56,12 @@ public:
 		}
 		//return this->x - p.x && this->y == p.y;
 	}
+	bool operator!=(const Point& p) const {
+		if (abs(this->x - p.x) > PRECISION || abs(this->y - p.y) > PRECISION) {
+			return true;
+		}
+		return false;
+	}
 	void setPoint(double px, double py) { x = px; y = py; }
 	double getX() { return x; }
 	double getY() { return y; }
@@ -117,7 +123,6 @@ static std::vector<Circle> circles;
 
 void addPoint(Point p);
 void clearRes();
-extern "C" EXPORT_DLL void resetRes();
 
 double cross(Point p, Point q);
 double dot(Point p, Point q);
@@ -132,17 +137,25 @@ int line2line(Line l1, Line l2, Point& res);
 bool isSame(Line l1, Line l2);
 bool isSame(Circle c1, Circle c2);
 
+//重置！
+extern "C" EXPORT_DLL void resetRes();
 
+//获得交点个数
 extern "C" EXPORT_DLL int getResultOfIntersect();
 
-extern "C" EXPORT_DLL void getPoint(double* x, double* y, int* size);
+//获得交点,xy是交点的横纵坐标的数组，结果由参数传递
+extern "C" EXPORT_DLL void getPoint(double* x, double* y);
 
+//添加直线
 extern "C" EXPORT_DLL void addLine(char l, int x1, int y1, int x2, int y2);
 
+//删除直线
 extern "C" EXPORT_DLL void delLine(char l, int x1, int y1, int x2, int y2);
 
+//添加圆
 extern "C" EXPORT_DLL void addCircle(int x, int y, int r);
 
+//删除圆
 extern "C" EXPORT_DLL void delCircle(int x, int y, int r);
 
 //use for 命令行 c++

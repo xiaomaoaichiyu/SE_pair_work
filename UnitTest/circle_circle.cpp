@@ -1,5 +1,5 @@
 #include "CppUnitTest.h"
-#include "../core.h"
+#include "../core/core.h"
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTest4 {

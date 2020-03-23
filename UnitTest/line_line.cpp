@@ -1,5 +1,5 @@
 #include "CppUnitTest.h"
-#include "../pair_wzb/core.h"
+#include "../core/core.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

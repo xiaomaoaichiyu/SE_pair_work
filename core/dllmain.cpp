@@ -10,24 +10,28 @@ int getResultOfIntersect()
 	return (int)Result.size();
 }
 
-void getPoint(double* x, double* y, int* size)
+void getPoint(double* x, double* y)
 {
-	linesIntersect();
-	linesCirclesIntersect();
-	circlesIntersect();
+	//linesIntersect();
+	//linesCirclesIntersect();
+	//circlesIntersect();
 	int s = Result.size();
-	x = new double(s * (int)sizeof(double));
-	y = new double(s * (int)sizeof(double));
 	for (int i = 0; i < s; i++) {
 		x[i] = Result.at(i).getX();
 		y[i] = Result.at(i).getY();
 	}
-	*size = s;
 }
 
 void addLine(char l, int x1, int y1, int x2, int y2)
 {
 	Line line(l, x1, y1, x2, y2);
+	for (int i = 0; i < lines.size(); i++) {
+		if (isSame(lines.at(i), line)) {
+			throw std::string("line is same with before one!");
+			return;
+		}
+	}
+	
 	lines.push_back(line);
 	return;
 }
@@ -36,12 +40,19 @@ void delLine(char l, int x1, int y1, int x2, int y2)
 {
 	Line line(l, x1, y1, x2, y2);
 	lines.erase(remove(lines.begin(), lines.end(), line), lines.end());
+	Result.clear();
 	return;
 }
 
 void addCircle(int x, int y, int r)
 {
 	Circle c(x, y, r);
+	for (int i = 0; i < circles.size(); i++) {
+		if (isSame(circles.at(i), c)) {
+			throw std::string("line is same with before one!");
+			return;
+		}
+	}
 	circles.push_back(c);
 	return;
 }
@@ -50,6 +61,7 @@ void delCircle(int x, int y, int r)
 {
 	Circle c(x, y, r);
 	circles.erase(remove(circles.begin(), circles.end(), c), circles.end());
+	Result.clear();
 	return;
 }
 
@@ -225,6 +237,36 @@ int line2line(Line l1, Line l2, Point& res)
 	//判断是否相交
 	double tmp = cross(l1.getQ() - l1.getP(), l2.getQ() - l2.getP());
 	if (tmp == 0.0) {
+		char flag1 = l1.getFlag();
+		char flag2 = l2.getFlag();
+		if (flag1 == 'R' && flag2 == 'R') {
+			if (l1.getP() == l2.getP()) {
+				res = l1.getP();
+				return 1;
+			}
+		}
+		else if (flag1 == 'R' && flag2 == 'S') {
+			if (l1.getP() == l2.getP() || l1.getP() == l2.getQ()) {
+				res = l1.getP();
+				return 1;
+			}
+		}
+		else if (flag1 == 'S' && flag2 == 'R') {
+			if (l2.getP() == l1.getP() || l2.getP() == l1.getQ()) {
+				res = l2.getP();
+				return 1;
+			}
+		}
+		else if (flag1 == 'S' && flag2 == 'S') {
+			if (l1.getP() == l2.getP() || l1.getP() == l2.getQ()) {
+				res = l1.getP();
+				return 1;
+			}
+			else if (l1.getQ() == l2.getP() || l1.getQ() == l2.getQ()){
+				res = l1.getQ();
+				return 1;
+			}
+		}
 		return 0;
 	}
 
@@ -247,12 +289,65 @@ int line2line(Line l1, Line l2, Point& res)
 	return 0;
 }
 
+bool isSame(Line l1, Line l2)
+{
+	double tmp = cross(l1.getQ() - l1.getP(), l2.getQ()-l2.getP());
+	double tmp1 = cross(l2.getP() - l1.getP(), l2.getP() - l1.getQ());
+	if (tmp == 0 && tmp1 == 0) {
+		char flag1 = l1.getFlag();
+		char flag2 = l2.getFlag();
+		if (flag1 == 'L' || flag2 == 'L') {
+			return true;
+		}
+		else if (flag1 == 'R' && flag2 == 'R') {
+			double direct = dot(l1.getQ() - l1.getP(), l2.getQ() -l2.getP());
+			if (direct > 0.0) {
+				return true;
+			}
+			else {
+				return (l1.getP() != l2.getP()) && isOnRadial(l1.getP(), l2);
+			}
+		}
+		else if (flag1 == 'R' && flag2 == 'S') {
+			return (l2.getP() != l1.getP() && isOnRadial(l2.getP(), l1))
+				|| (l2.getQ() != l1.getP() && isOnRadial(l2.getQ(), l1));
+		}
+		else if (flag1 == 'S' && flag2 == 'R') {
+			return (l1.getP() != l2.getP() && isOnRadial(l1.getP(), l2))
+				|| (l1.getQ() != l2.getP() && isOnRadial(l1.getQ(), l2));
+		}
+		else if (flag1 == 'S' && flag2 == 'S') {
+			double direct = dot(l1.getQ() - l1.getP(), l2.getQ() - l2.getP());
+			if (direct > 0.0) {
+				return (l1.getP() != l2.getQ() && isOnSegment(l1.getP(), l2)
+						|| l1.getQ() != l2.getP() && isOnSegment(l1.getQ(), l2)) 
+					|| (l2.getP() != l1.getQ() && isOnSegment(l2.getP(), l1)
+						|| l2.getQ() != l1.getP() && isOnSegment(l2.getQ(), l1));
+			}
+			else {
+				return (l1.getP() != l2.getP() && isOnSegment(l1.getP(), l2)
+					|| l1.getQ() != l2.getQ() && isOnSegment(l1.getQ(), l2))
+					|| (l2.getP() != l1.getP() && isOnSegment(l2.getP(), l1)
+						|| l2.getQ() != l1.getQ() && isOnSegment(l2.getQ(), l1));
+			}
+		}
+	}
+	return false;
+}
+
+bool isSame(Circle c1, Circle c2)
+{
+	return c1 == c2;
+}
+
 bool isOnRadial(Point p, Line l) {
-	return dot(l.getQ() - l.getP(), p - l.getP()) >= 0;
+	return (p == l.getP()) || dot(l.getQ() - l.getP(), p - l.getP()) > 0;
 }
 
 bool isOnSegment(Point p, Line l) {
-	return dot(l.getQ() - l.getP(), p - l.getP()) * dot(l.getQ() - l.getP(), p - l.getQ()) <= 0;
+	return (p == l.getP()) ||
+			(p == l.getQ()) ||
+			dot(l.getQ() - l.getP(), p - l.getP()) * dot(l.getQ() - l.getP(), p - l.getQ()) < 0;
 }
 
 bool isOnLine(Point p, Line l) {
@@ -379,6 +474,3 @@ int cirWithcir(int x1, int y1, int r1, int x2, int y2, int r2, double* x, double
 	}
 	return num;
 }
-
-
-
