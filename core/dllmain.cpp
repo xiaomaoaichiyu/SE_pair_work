@@ -27,7 +27,7 @@ void addLine(char l, int x1, int y1, int x2, int y2)
 	Line line(l, x1, y1, x2, y2);
 	for (int i = 0; i < lines.size(); i++) {
 		if (isSame(lines.at(i), line)) {
-			throw std::string("line is same with before one!");
+			throw std::string("Line is same with before one!");
 			return;
 		}
 	}
@@ -49,7 +49,7 @@ void addCircle(int x, int y, int r)
 	Circle c(x, y, r);
 	for (int i = 0; i < circles.size(); i++) {
 		if (isSame(circles.at(i), c)) {
-			throw std::string("line is same with before one!");
+			throw std::string("Circle is same with before one!");
 			return;
 		}
 	}
@@ -63,6 +63,38 @@ void delCircle(int x, int y, int r)
 	circles.erase(remove(circles.begin(), circles.end(), c), circles.end());
 	Result.clear();
 	return;
+}
+
+EXPORT_DLL int getNumOfLines()
+{
+	return lines.size();
+}
+
+EXPORT_DLL void getLines(char* flag, int* x1, int* y1, int* x2, int* y2, int size)
+{
+	for (int i = 0; i < lines.size(); i++) {
+		flag[i] = lines.at(i).getFlag();
+		x1[i] = (int)lines.at(i).getPx();
+		y1[i] = (int)lines.at(i).getPy();
+		x2[i] = (int)lines.at(i).getQx();
+		y2[i] = (int)lines.at(i).getQy();
+	}
+	return ;
+}
+
+EXPORT_DLL int getNumOfCircles()
+{
+	return circles.size();
+}
+
+EXPORT_DLL void getCircles(int* x, int* y, int* r, int size)
+{
+	for (int i = 0; i < circles.size(); i++) {
+		x[i] = (int)circles.at(i).getCeter().getX();
+		y[i] = (int)circles.at(i).getCeter().getY();
+		r[i] = (int)circles.at(i).getR();
+	}
+	return ;
 }
 
 void addPoint(Point p) {

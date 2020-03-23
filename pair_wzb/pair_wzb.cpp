@@ -17,15 +17,6 @@ bool isNum(string str)
 }
 
 int main(int argc, char** argv) {
-	addLine('S', 2, 4, 3, 2);
-	addLine('L', -1, 4, 5, 2);
-	addLine('R', 2, 5, -1, 2);
-	addCircle(3, 3, 3);
-
-	int num = getResultOfIntersect();
-
-
-
 	string inFileName = "";
 	string outFileName = "";
 	int flag = 0;
