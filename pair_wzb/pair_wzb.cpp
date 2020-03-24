@@ -40,13 +40,6 @@ int main(int argc, char** argv) {
 	GetNum getInSize = (GetNum)GetProcAddress(hMod, "GetIntersectionsSize");
 	Getdian getDian = (Getdian)GetProcAddress(hMod, "GetIntersections");
 
-	addAcircle(2, 2, 3);
-	addAcircle(2, 3, 4);
-	int num = getInSize();
-	double x[2];
-	double y[2];
-	getDian(x, y, 1);
-
 	string inFileName = "";
 	string outFileName = "";
 	int flag = 0;
@@ -143,7 +136,7 @@ int main(int argc, char** argv) {
 				cerr << "Two Points Coincide!!" << endl;
 				return 0;
 			}
-			addLine(mark, x1, y1, x2, y2);
+			//addLine(mark, x1, y1, x2, y2);
 			if (mark == 'L') {
 				addAline(x1, y1, x2, y2);
 			}
@@ -184,17 +177,17 @@ int main(int argc, char** argv) {
 			if (r <= 0) {
 				cerr << "Radius Must Be Greater Than Zero!!" << endl;
 			}
-			addCircle(x1, y1, r);
+			//addCircle(x1, y1, r);
 			addAcircle(x1, y1, r);
 		}
 	}
 	fileIn.close();
 
-	int res = getResultOfIntersect();
+	//int res = getResultOfIntersect();
 	int res1 = getInSize();
 	if (fileOut) {
-		fileOut << res;
+		fileOut << res1;
 	}
-	cout << res << " " << res1 << endl;
+	//cout << res << " " << res1 << endl;
 	return 0;
 }
