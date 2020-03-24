@@ -29,6 +29,8 @@ intersect.exe -i “input file name” -o "output file name"
 
 # UI使用说明
 
+UI.exe位于项目主页的**UI/**文件夹内。
+
 按钮使用方法如下
 
 **1.文件导入**：选择文件并从文件导入几何对象的描述。
