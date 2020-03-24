@@ -31,15 +31,15 @@ namespace WindowsFormsApp1
                 int.TryParse(points[2], out int y1);
                 int.TryParse(points[3], out int x2);
                 int.TryParse(points[4], out int y2);
-                if (points.Equals("L"))
+                if (points[0].Equals("L"))
                 {
                     Class1.AddLine( x1, y1, x2, y2);
                 }
-                else if (points.Equals("R"))
+                else if (points[0].Equals("R"))
                 {
                     Class1.AddRay( x1, y1, x2, y2);
                 }
-                else if (points.Equals("S"))
+                else if (points[0].Equals("S"))
                 {
                     Class1.AddSection(x1, y1, x2, y2);
                 }
@@ -192,21 +192,29 @@ namespace WindowsFormsApp1
                 Draw(points, g);
             }//画出每一个几何对象
 
-
-            int size = Class1.GetIntersectionsSize();
-            double[] x = new double[size];
-            double[] y = new double[size];
-            int[] size1 = new int[1];
-            label4.Text = "交点数目:" + size.ToString();
-            Class1.GetIntersections(x, y, size);
-            comboBox2.Items.Clear();
-            
-
-            for(int i = 0; i < size; i++)
+            try
             {
-                comboBox2.Items.Add("(" + x[i].ToString() + "," + y[i].ToString() + ")");//填写交点坐标
-                MarkPoint(g, (float)x[i], (float)y[i]);//标记交点
+                int size = Class1.GetIntersectionsSize();
+                double[] x = new double[size];
+                double[] y = new double[size];
+                int[] size1 = new int[1];
+                label4.Text = "交点数目:" + size.ToString();
+                Class1.GetIntersections(x, y, size);
+                comboBox2.Items.Clear();
+
+
+                for (int i = 0; i < size; i++)
+                {
+                    comboBox2.Items.Add("(" + x[i].ToString() + "," + y[i].ToString() + ")");//填写交点坐标
+                    MarkPoint(g, (float)x[i], (float)y[i]);//标记交点
+                }
             }
+            catch
+            {
+                MessageBox.Show("有重合的几何图形,请结束程序", "提示");
+                return;
+            }
+            
                 
         }
 
