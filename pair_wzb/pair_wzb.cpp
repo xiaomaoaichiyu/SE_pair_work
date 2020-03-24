@@ -40,6 +40,18 @@ int main(int argc, char** argv) {
 	GetNum getInSize = (GetNum)GetProcAddress(hMod, "GetIntersectionsSize");
 	Getdian getDian = (Getdian)GetProcAddress(hMod, "GetIntersections");
 
+	/*addAline(2, 3, 1, 2);
+	addAline(1, 2, 3, 4);
+	double x[2];
+	double y[2];
+	try {
+		int num = getInSize();
+	}
+	catch (const string& e) {
+		cerr << e << endl;
+	}
+	getDian(x, y, 1);*/
+
 	string inFileName = "";
 	string outFileName = "";
 	int flag = 0;
