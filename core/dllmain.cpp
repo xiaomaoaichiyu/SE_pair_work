@@ -12,6 +12,7 @@ int getResultOfIntersect()
 
 void getPoint(double* x, double* y)
 {
+
 	//linesIntersect();
 	//linesCirclesIntersect();
 	//circlesIntersect();
