@@ -113,7 +113,13 @@ int main(int argc, char** argv) {
 				cerr << "Two Points Coincide!!" << endl;
 				return 0;
 			}
-			addLine(mark, x1, y1, x2, y2);
+			try {
+				addLine(mark, x1, y1, x2, y2);
+			}
+			catch (const exception& e) {
+				cerr << e.what() << endl;
+				return 0;
+			}
 		}
 		else if (mark == 'C') {
 			stringstream nums;
@@ -145,7 +151,13 @@ int main(int argc, char** argv) {
 			if (r <= 0) {
 				cerr << "Radius Must Be Greater Than Zero!!" << endl;
 			}
-			addCircle(x1, y1, r);
+			try {
+				addCircle(x1, y1, r);
+			}
+			catch (const exception& e) {
+				cerr << e.what() << endl;
+				return 0;
+			}
 		}
 	}
 	fileIn.close();

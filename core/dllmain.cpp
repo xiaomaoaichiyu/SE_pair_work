@@ -26,9 +26,14 @@ void addLine(char l, int x1, int y1, int x2, int y2)
 {
 	Line line(l, x1, y1, x2, y2);
 	for (int i = 0; i < lines.size(); i++) {
-		if (isSame(lines.at(i), line)) {
-			throw std::string("Line is same with before one!");
-			return;
+		try {
+			if (isSame(lines.at(i), line)) {
+				throw std::exception("Line is same with before one!");
+			}
+		}
+		catch (const std::exception& e) {
+			std::cerr << e.what() << std::endl;
+			exit(1);
 		}
 	}
 	
@@ -48,9 +53,14 @@ void addCircle(int x, int y, int r)
 {
 	Circle c(x, y, r);
 	for (int i = 0; i < circles.size(); i++) {
-		if (isSame(circles.at(i), c)) {
-			throw std::string("Circle is same with before one!");
-			return;
+		try {
+			if (isSame(circles.at(i), c)) {
+				throw std::exception("Circle is same with before one!");
+			}
+		}
+		catch (const std::exception& e) {
+			std::cerr << e.what() << std::endl;
+			exit(1);
 		}
 	}
 	circles.push_back(c);
