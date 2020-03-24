@@ -90,7 +90,7 @@ int main(int argc, char** argv) {
 				tmps >> tmp;
 				nums << tmp + " ";
 				if (tmp == "") {
-					cerr << "Too Few Messages!!" << endl;
+					cerr << "Too Few Messages!!" <<endl;
 					return 0;
 				}
 				else if (!isNum(tmp)) {
@@ -154,6 +154,6 @@ int main(int argc, char** argv) {
 	if (fileOut) {
 		fileOut << res;
 	}
-	cout << res << endl;
+	//cout << res << endl;
 	return 0;
 }
